@@ -23,7 +23,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Jlndk\\SlimJade\\": "./src/"
+            "Slim\\SlimJade\\": "./src/"
         }
-    }
+    },
+    "target-dir": "Slim/SlimJade"    
+    
+    
 }
