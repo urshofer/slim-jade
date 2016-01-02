@@ -1,11 +1,11 @@
 <?php
 
-namespace Jlndk\SlimJade;
+namespace Slim\SlimJade;
 
 use \Jade\Jade as Engine;
 
 class Jade extends \Slim\View{
-	protected $parserInstance; //Instance of the Jadeparser
+    protected $parserInstance; //Instance of the Jadeparser
     protected $parserOptions = array();
     /**
      * Render Jade Template
