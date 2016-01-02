@@ -17,7 +17,7 @@ class Jade
      * @param null $data
      * @return string
      */
-    protected function render($template, $data = null)
+    public function render($template, $data = null)
     {
         $env = $this->getInstance();
         $templatePathname = $this->getTemplatePathname($template);
