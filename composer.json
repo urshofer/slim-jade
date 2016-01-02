@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Slim\\SlimJade\\": "src/"
+            "Slim\\Views\\": "src/"            
         },
        "files": ["src/Jade.php"]
     }
