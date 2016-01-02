@@ -4,7 +4,7 @@ namespace Slim\Views;
 
 use \Jade\Jade as Engine;
 
-class Jade extends \Slim\View
+class Jade
 {
     protected $parserInstance; //Instance of the Jadeparser
     protected $parserOptions = array();
