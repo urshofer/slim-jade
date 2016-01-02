@@ -22,9 +22,9 @@
         "phpunit/phpunit": "*"
     },
     "autoload": {
-        "psr-0": {
-            "Slim\\SlimJade\\": "./src/"
-        }
-    },
-    "target-dir": "Slim/Mustache"
+        "psr-4": {
+            "Slim\\SlimJade\\": "src/"
+        },
+       "files": ["src/Jade.php"]
+    }
 }
