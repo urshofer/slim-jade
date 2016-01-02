@@ -1,10 +1,11 @@
 <?php
 
-namespace Slim\SlimJade;
+namespace Slim\Views;
 
 use \Jade\Jade as Engine;
 
-class Jade extends \Slim\View{
+class Jade extends \Slim\View
+{
     protected $parserInstance; //Instance of the Jadeparser
     protected $parserOptions = array();
     /**
