@@ -3,11 +3,27 @@
 namespace Slim\Views;
 
 use \Jade\Jade as Engine;
+use Psr\Http\Message\ResponseInterface;
 
-class Jade
+class Jade implements \ArrayAccess
 {
     protected $parserInstance; //Instance of the Jadeparser
     protected $parserOptions = array();
+    protected $templatePath = "";
+    protected $defaultVariables = [];
+	
+    /**
+       * Create new Twig view
+       *
+       * @param string $path     Path to templates directory
+       * @param array  $settings Twig environment settings
+       */
+      public function __construct($path, $settings = [])
+      {
+          $this->templatePath 	= $path;
+          $this->parserOptions 	= $settings;
+      }
+	
     /**
      * Render Jade Template
      *
@@ -17,19 +33,21 @@ class Jade
      * @param null $data
      * @return string
      */
-    public function render($template, $data = null)
+    public function render(ResponseInterface $response, $template, $data = [])
     {
         $env = $this->getInstance();
-        $templatePathname = $this->getTemplatePathname($template);
+        $templatePathname = $this->templatePath . DIRECTORY_SEPARATOR . $template;
         
         if (!is_file($templatePathname)) {
             throw new \RuntimeException("View cannot render `$template` because the template does not exist");
         }
 
-        $data = array_merge($this->data->all(), (array) $data);
+        $data = array_merge($this->defaultVariables, $data);
         extract($data);
 
-        return $env->render($templatePathname, $data);
+        $response->getBody()->write($env->render($templatePathname, $data));
+        return $response;
+		
     }
     
     /**
@@ -46,6 +64,76 @@ class Jade
 
         return $this->parserInstance;
     }
+	
+    /********************************************************************************
+    * ArrayAccess interface
+    *******************************************************************************/
+
+    /**
+    * Does this collection have a given key?
+    *
+    * @param  string $key The data key
+    *
+    * @return bool
+    */
+   public function offsetExists($key)
+   {
+       return array_key_exists($key, $this->defaultVariables);
+   }
+   /**
+    * Get collection item for key
+    *
+    * @param string $key The data key
+    *
+    * @return mixed The key's value, or the default value
+    */
+   public function offsetGet($key)
+   {
+       return $this->defaultVariables[$key];
+   }
+   /**
+    * Set collection item
+    *
+    * @param string $key   The data key
+    * @param mixed  $value The data value
+    */
+   public function offsetSet($key, $value)
+   {
+       $this->defaultVariables[$key] = $value;
+   }
+   /**
+    * Remove item from collection
+    *
+    * @param string $key The data key
+    */
+   public function offsetUnset($key)
+   {
+       unset($this->defaultVariables[$key]);
+   }
+   /********************************************************************************
+    * Countable interface
+    *******************************************************************************/
+   /**
+    * Get number of items in collection
+    *
+    * @return int
+    */
+   public function count()
+   {
+       return count($this->defaultVariables);
+   }
+   /********************************************************************************
+    * IteratorAggregate interface
+    *******************************************************************************/
+   /**
+    * Get collection iterator
+    *
+    * @return \ArrayIterator
+    */
+   public function getIterator()
+   {
+       return new \ArrayIterator($this->defaultVariables);
+   }	
 }
 
 
