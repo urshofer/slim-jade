@@ -10,7 +10,7 @@
             "name": "Jonas Lindenskov Nielsen",
             "email": "hello@jonasln.dk",
             "homepage": "http://jonasln.dk"
-        }
+        }   
     ],
     "require": {
         "php": ">=5.4.0",
