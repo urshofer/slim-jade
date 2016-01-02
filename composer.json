@@ -21,9 +21,9 @@
         "phpunit/phpunit": "*"
     },
     "autoload": {
-        "psr-4": {
-            "Slim\\Views\\": "src/"            
-        },
-       "files": ["src/Jade.php"]
-    }
+        "psr-0": {
+            "Slim\\Jade": ""
+        }
+    },
+    "target-dir": "Slim/Jade"
 }
