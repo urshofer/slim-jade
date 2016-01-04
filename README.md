@@ -1,40 +1,96 @@
-#Jade for Slim framework
-[![Build Status](https://travis-ci.org/jlndk/slim-jade.svg?branch=master)](https://travis-ci.org/jlndk/slim-jade)
+Jade for Slim framework
+=======================
 
-This is a helper for the Slim framework, that allows the use of jade-php, together with Slim
+<https://travis-ci.org/jlndk/slim-jade>
 
-## Install
+This is a helper for the Slim framework, that allows the use of jade-php,
+together with Slim
 
-Via [Composer](https://getcomposer.org/)
+Install
+-------
 
-```bash
+Via [Composer](<https://getcomposer.org/>)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ composer require jlndk/slim-jade
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Requires Slim Framework 3 and PHP 5.4.0 or newer.
 
+In order to use this specific fork, you'll need to update your composer.json
+file manually at the repositories and the require section.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"repositories": [
+  {
+    "type": "vcs",
+    "url": "https://github.com/urshofer/slim-jade"
+  }
+  ...
+]
+
+"require": {
+  ...
+  "jlndk/slim-jade": "dev-master"
+  ...
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ### How to use
 
-##### [The Jade Syntax Reference](https://github.com/visionmedia/jade#readme)
-##### [Jade-php](https://github.com/kylekatarnls/jade-php#whats-new-)
+##### [The Jade Syntax Reference](<https://github.com/visionmedia/jade#readme>)
 
-```php
+##### [Jade-php](<https://github.com/kylekatarnls/jade-php#whats-new->)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <?php
 require 'vendor/autoload.php';
 
-$app = new \Slim\Slim(array(
-    'view' => new \Jlndk\SlimJade\Jade()
-));
-```
+// Set up Slim
 
-## Contributing
+$settings = [
+  'view' => [
+    'template_path' => __DIR__ . '/../templates/',
+    'cache_path' => __DIR__ . '/../cache/',
+  ]
+];
+$app = new \Slim\Slim($settings);
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+// Configure Container
 
-## Credits
+$container = $app->getContainer();
 
-- [Jlndk](https://github.com/jlndk)
+// View Renderer
 
-## License
+$container['view'] = function ($c) {
+  $settings = $c->get('settings')['view'];
+  $view = new \Slim\Views\Jade(
+    $settings['template_path'], 
+    ['cache' => $settings['cache_path']]
+  );
+  return $view;
+};
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+// Route rendering the index.jade file
+
+$app->get('/', function ($request, $response, $args) {
+  // Render index view
+  $this->view->render($response, 'index.jade', $args);
+});
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Contributing
+------------
+
+Please see [CONTRIBUTING](<CONTRIBUTING.md>) for details.
+
+Credits
+-------
+
+-   [Jlndk](<https://github.com/jlndk>)
+
+License
+-------
+
+The MIT License (MIT). Please see [License File](<LICENSE.md>) for more
+information.
