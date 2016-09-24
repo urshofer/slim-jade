@@ -2,7 +2,7 @@
 
 namespace Slim\Views;
 
-use \Jade\Jade as Engine;
+use \Pug\Pug as Engine;
 use Psr\Http\Message\ResponseInterface;
 
 class Jade implements \ArrayAccess
