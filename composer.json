@@ -10,12 +10,12 @@
             "name": "Jonas Lindenskov Nielsen",
             "email": "hello@jonasln.dk",
             "homepage": "http://jonasln.dk"
-        }   
+        }
     ],
     "require": {
         "php": ">=5.4.0",
-        "slim/slim": "~3.0",        
-        "pug-php/pug": "2.4.3"
+        "slim/slim": "~3.0",
+        "pug-php/pug": "^2.5"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
